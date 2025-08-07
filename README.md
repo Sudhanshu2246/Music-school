@@ -1,4 +1,12 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎵 Music School — Interactive Web App
+
+Welcome to the Music School project — a modern, responsive, and visually engaging web application built with [Next.js](https://nextjs.org). This app showcases a dynamic course catalog, immersive UI animations, and a clean user experience powered by:
+
+- 🧩 [TailwindCSS](https://tailwindcss.com) — utility-first styling
+- 🧠 [ShadCN UI](https://ui.shadcn.com) — accessible and customizable components
+- ✨ [Aceternity UI](https://aceternity-ui.vercel.app) — stunning animations and 3D effects
+
+---
 
 ## Getting Started
 
