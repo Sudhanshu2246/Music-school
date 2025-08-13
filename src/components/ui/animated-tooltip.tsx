@@ -8,48 +8,41 @@ import {
   useMotionValue,
   useSpring,
 } from "motion/react";
+import Image from "next/image";
 
-export const AnimatedTooltip = ({
-  items,
-}: {
-  items: {
-    id: number;
-    name: string;
-    designation: string;
-    image: string;
-  }[];
-}) => {
+type TooltipItem = {
+  id: number;
+  name: string;
+  designation: string;
+  image: string;
+};
+
+export const AnimatedTooltip = ({ items }: { items: TooltipItem[] }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const springConfig = { stiffness: 100, damping: 15 };
   const x = useMotionValue(0);
   const animationFrameRef = useRef<number | null>(null);
 
-  const rotate = useSpring(
-    useTransform(x, [-100, 100], [-45, 45]),
-    springConfig,
-  );
-  const translateX = useSpring(
-    useTransform(x, [-100, 100], [-50, 50]),
-    springConfig,
-  );
+  const rotate = useSpring(useTransform(x, [-100, 100], [-45, 45]), springConfig);
+  const translateX = useSpring(useTransform(x, [-100, 100], [-50, 50]), springConfig);
 
-  const handleMouseMove = (event: any) => {
+  const handleMouseMove = (event: React.MouseEvent<HTMLImageElement>) => {
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
     }
 
     animationFrameRef.current = requestAnimationFrame(() => {
-      const halfWidth = event.target.offsetWidth / 2;
+      const halfWidth = event.currentTarget.offsetWidth / 2;
       x.set(event.nativeEvent.offsetX - halfWidth);
     });
   };
 
   return (
     <>
-      {items.map((item, idx) => (
+      {items.map((item) => (
         <div
           className="group relative -mr-4"
-          key={item.name}
+          key={item.id}
           onMouseEnter={() => setHoveredIndex(item.id)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
@@ -69,8 +62,8 @@ export const AnimatedTooltip = ({
                 }}
                 exit={{ opacity: 0, y: 20, scale: 0.6 }}
                 style={{
-                  translateX: translateX,
-                  rotate: rotate,
+                  translateX,
+                  rotate,
                   whiteSpace: "nowrap",
                 }}
                 className="absolute -top-16 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center justify-center rounded-md bg-black px-4 py-2 text-xs shadow-xl"
@@ -84,7 +77,7 @@ export const AnimatedTooltip = ({
               </motion.div>
             )}
           </AnimatePresence>
-          <img
+          <Image
             onMouseMove={handleMouseMove}
             height={100}
             width={100}
